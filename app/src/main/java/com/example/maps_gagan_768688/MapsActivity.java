@@ -118,7 +118,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 l.setLatitude(latLng.latitude);
                 l.setLongitude(latLng.longitude);
                 MarkerOptions options = new MarkerOptions().position(latLng)
-                        .title(getAddress(l));
+                        .title(getAddress(l)).snippet(getCity(l));
 
                 /*if (destMarker != null) clearMap();
 
@@ -182,8 +182,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     address += locationAddress.get(0).getSubThoroughfare() + " ";
                 if(locationAddress.get(0).getThoroughfare() != null)
                     address += locationAddress.get(0).getThoroughfare() + " ";
-                if(locationAddress.get(0).getLocality() != null)
+                if(locationAddress.get(0).getPostalCode() != null)
                     address += locationAddress.get(0).getLocality();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
+        }
+
+        return address;
+
+    }
+
+    private String getCity(Location location){
+
+        String address = "";
+
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> locationAddress = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
+            if(locationAddress != null && locationAddress.size() > 0){
+
+                if(locationAddress.get(0).getAdminArea() != null)
+                    address += locationAddress.get(0).getAddressLine(0) + " ";
+                if(locationAddress.get(0).getThoroughfare() != null)
+                    address += locationAddress.get(0).getAddressLine(1) + " ";
+
             }
 
         } catch (IOException e) {
