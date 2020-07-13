@@ -47,6 +47,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int POLYGON_SIDES = 4;
     List<Marker> markers = new ArrayList();
     int count = 1;
+    Marker dragMarker;
 
     // location with location manager and listener
     LocationManager locationManager;
@@ -133,7 +134,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 l.setLatitude(latLng.latitude);
                 l.setLongitude(latLng.longitude);
                 MarkerOptions options = new MarkerOptions().position(latLng)
-                        .title(getAddress(l)).snippet(getCity(l));
+                        .title(getAddress(l)).snippet(getCity(l)).draggable(true);
 
 //                if (destMarker != null) clearMap();
 
@@ -218,6 +219,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
         mMap.setOnPolylineClickListener(this);
+        mMap.setOnPolygonClickListener(this);
+        mMap.setOnMarkerDragListener(this);
     }
 
 
@@ -319,26 +322,41 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onPolygonClick(Polygon polygon) {
        List points = polygon.getPoints();
 
+
+
        Location loc1 = new Location("");
          LatLng l1 = (LatLng) points.get(0);
-
          loc1.setLatitude(l1.latitude);
          loc1.setLongitude(l1.longitude);
 
          Location loc2 = new Location("");
          LatLng l2 = (LatLng) points.get(1);
-
          loc2.setLatitude(l2.latitude);
          loc2.setLongitude(l2.longitude);
 
-         float distance = loc1.distanceTo(loc2);
-        System.out.println("..............." + distance);
+        Location loc3 = new Location("");
+        LatLng l3 = (LatLng) points.get(2);
+        loc2.setLatitude(l3.latitude);
+        loc2.setLongitude(l3.longitude);
 
-        Toast.makeText(this, "Distance= " + distance, Toast.LENGTH_SHORT).show();
+        Location loc4 = new Location("");
+        LatLng l4 = (LatLng) points.get(3);
+        loc2.setLatitude(l4.latitude);
+        loc2.setLongitude(l4.longitude);
+
+
+
+         float distance = loc1.distanceTo(loc2) + loc2.distanceTo(loc3) + loc3.distanceTo(loc4) + loc4.distanceTo(loc1);
+
+        System.out.println("..............polygon." + distance);
+
+        Toast.makeText(this, "Total Distance= " + distance, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onMarkerDragStart(Marker marker) {
+
+        dragMarker = marker;
 
     }
 
@@ -349,6 +367,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMarkerDragEnd(Marker marker) {
+
+//        markers.add(count,marker);
 
     }
 
@@ -370,12 +390,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         loc2.setLongitude(l2.longitude);
 
         float distance = loc1.distanceTo(loc2);
-        System.out.println("..............." + distance);
+        System.out.println("...............polyline" + distance);
 
         System.out.println("gggggggggggggggg///////////////////////////////");
 
 
-        Toast.makeText(this, "..............", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Distance= " + distance, Toast.LENGTH_SHORT).show();
 
     }
 }
