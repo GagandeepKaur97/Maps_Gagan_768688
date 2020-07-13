@@ -45,7 +45,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnPolygonClickListener, GoogleMap.OnMarkerDragListener, GoogleMap.OnPolylineClickListener, GoogleMap.OnMapLongClickListener {
+public   class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnPolygonClickListener, GoogleMap.OnMarkerDragListener, GoogleMap.OnPolylineClickListener, GoogleMap.OnMapLongClickListener ,  GoogleMap.OnMapClickListener{
 
     private GoogleMap mMap;
 
@@ -200,13 +200,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
 
 
-//            @Override
-//            public void onMapLongClick(LatLng latLng) {
-//                for (int i=0; i<POLYGON_SIDES; i++) {
-//                    markers.get(i).remove();
-//                }
-//                shape.remove();
-//            }
+
       });
 
 
@@ -773,7 +767,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             index++;
             if (index == sortedLatLong.size()) {
-                // at last add initial point
+              
                 polyLinePoints[index] = sortedLatLong.elementAt(0);
             }
         }
