@@ -130,6 +130,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             private void setMarker(LatLng latLng) {
 
+                if(count >= 5 ) {
+                    line.remove();
+                    shape.remove();
+                    for (int i = 0; i<4; i++) {
+                        markers.get(i).remove();
+                    }
+                    count = 1;
+                }
                 Location l = new Location("");
                 l.setLatitude(latLng.latitude);
                 l.setLongitude(latLng.longitude);
@@ -305,6 +313,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                 .snippet("Your Location");
         mMap.addMarker(options);
+
 //        homeMarker = mMap.addMarker(options);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
     }
